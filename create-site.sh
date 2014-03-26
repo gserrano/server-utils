@@ -32,13 +32,6 @@ fi
 chown -R ${USER}:${USER} /var/www/${DOMAIN}/public
 chown -R ${USER}:${USER} /var/www/${DOMAIN}/logs
 
-# Create the Config file for your virtual site
-
-#backup do /etc/hosts
-#cp /etc/hosts /etc/hosts.original
-#echo "127.0.0.1\t${DOMAIN}">> /etc/hosts
-
-#echo "#NameVirtualHost * "> /etc/apache2/sites-available/${DOMAIN}
 echo "<VirtualHost *:80>">> /etc/apache2/sites-available/${DOMAIN}
 
 echo	"	ServerAdmin contato@gssolutions.com.br" >> /etc/apache2/sites-available/${DOMAIN}
@@ -71,9 +64,10 @@ echo	"	CustomLog /var/www/${DOMAIN}/logs/access.log combined">>/etc/apache2/site
 
 echo '</VirtualHost>'>>/etc/apache2/sites-available/${DOMAIN}
 
+#create link to sites-enabled
 if [ ! -L /etc/apache2/sites-enabled/${DOMAIN} ]; then 
 	ln -s /etc/apache2/sites-available/${DOMAIN} /etc/apache2/sites-enabled/ 
 fi
 
-#Restart apache
-sudo service apache2 restart
+#Reload apache
+sudo service apache2 reload
